@@ -11,7 +11,7 @@ module.exports = function errorify(res, additions) {
     }
     var err;
     var message = ensureMessage(res);
-    var stringBody = ensureString(res.body);
+    var stringBody = ensureString(res.body || res);
     var details = _typeof(res.body) === "object" ? res.body : (typeof res === 'undefined' ? 'undefined' : _typeof(res)) === "object" ? res : {};
 
     if (!message && stringBody) {
