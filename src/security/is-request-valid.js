@@ -50,7 +50,7 @@ module.exports = function isRequestValid(context, req, cb) {
     }
     
     req.pipe(hashStream(context.sharedSecret, queryString.dt, bodyString)).pipe(concat(function (hash) {
-      if (hash !== messageHash || diff > timeout) {
+      if (hash !== messageHash) {
         return cb(new Error(util.format("Unauthorized access from %s, %s, %s Computed: %s", headers.host, messageHash, queryString.dt, hash)));
       } else {
         return cb(null);
@@ -64,7 +64,7 @@ module.exports = function isRequestValid(context, req, cb) {
     diff = (currentDate - requestDate) / 1000;
 
     req.pipe(hashStream(context.sharedSecret, headers.date, body)).pipe(concat(function (hash) {
-      if (hash !== headers[constants.headerPrefix + constants.headers['SHA256']] || diff > timeout) {
+      if (hash !== headers[constants.headerPrefix + constants.headers['SHA256']]) {
         return cb(new Error(util.format("Unauthorized access from %s, %s, %s Computed: %s", headers.host, headers[constants.headerPrefix + constants.headers['SHA256']], headers.date, hash)));
       } else {
         return cb(null);
